@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Caroussel from "./Caroussel";
+import ThemeContext from "./ThemeContext";
 import ErrorBoundary from "./ErrorBoundary";
+import Modal from "./Modal";
 
 const Details = () => {
   const [animal, updateAnimal] = useState("");
@@ -13,6 +15,9 @@ const Details = () => {
   const [loading, updateLoading] = useState(true);
   const [images, updateImages] = useState([]);
   const params = useParams();
+  const [theme] = useContext(ThemeContext);
+  const [showModal, updateShowModal] = useState(false);
+
   useEffect(() => {
     loadDetails();
   }, []);
@@ -40,8 +45,24 @@ const Details = () => {
       <div>
         <h1>{name}</h1>
         <h2>{`${animal} — ${breed} — ${city}, ${state}`}</h2>
-        <button>Adopt {name}</button>
+        <button
+          style={{ backgroundColor: theme }}
+          onClick={() => updateShowModal(!showModal)}
+        >
+          Adopt {name}
+        </button>
         <p>{description}</p>
+        {showModal ? (
+          <Modal>
+            <div>
+              <h1>Would you like to adopt {name}?</h1>
+              <div className="buttons">
+                <button onClick={() => window.location = "http://bit.ly/pet-adopt"}>Yes</button>
+                <button onClick={() => updateShowModal(!showModal)}>No</button>
+              </div>
+            </div>
+          </Modal>
+        ) : null}
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const App = () => {
             <Link to="/">Adopt Me!</Link>
           </header>
           <Routes>
-            <Route path="/details/:id" element={<Details theme={theme}/>} />
+            <Route path="/details/:id" element={<Details />} />
 
             <Route path="/" element={<SearchParams />} />
           </Routes>
